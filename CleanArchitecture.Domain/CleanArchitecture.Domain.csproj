@@ -11,7 +11,7 @@
         <PackageReference Include="MassTransit" Version="9.1.0" />
         <PackageReference Include="MediatR" Version="14.1.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
     </ItemGroup>
 
     <ItemGroup>
