@@ -1,4 +1,5 @@
 using System;
+using Aikido.Zen.DotNetCore;
 using CleanArchitecture.Api.BackgroundServices;
 using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Application.Extensions;
@@ -28,6 +29,7 @@ builder.Services.AddControllers();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddZenFirewall();
 
 var isAspire = builder.Configuration["ASPIRE_ENABLED"] == "true";
 
@@ -165,6 +167,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseZenFirewall();
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
