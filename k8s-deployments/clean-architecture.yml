@@ -51,3 +51,5 @@ spec:
             value: Http2
           - name: ConnectionStrings__DefaultConnection
             value: Server=sql-server;Database=clean-architecture;Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=True;User Id=SA;Password=Password123!#
+          - name: AIKIDO_TOKEN
+            value: <your-aikido-token>
