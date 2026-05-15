@@ -43,6 +43,8 @@ spec:
         env:
           - name: ASPNETCORE_HTTP_PORTS
             value: "80"
+          - name: AIKIDO_TOKEN
+            value: ""
           - name: Kestrel__Endpoints__Http__Url
             value: http://+:80
           - name: Kestrel__Endpoints__Grpc__Url
