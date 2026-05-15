@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
+using Aikido.Zen.DotNetCore;
 using CleanArchitecture.Api.BackgroundServices;
 using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Application.Extensions;
@@ -25,6 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
+builder.Services.AddZenFirewall();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddEndpointsApiExplorer();
@@ -165,6 +169,19 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use((context, next) =>
+{
+    var claim = context.User?.Claims
+        .FirstOrDefault(x => string.Equals(x.Type, ClaimTypes.NameIdentifier));
+    if (claim is not null && !string.IsNullOrEmpty(claim.Value))
+    {
+        var name = context.User?.Identity?.Name;
+        Zen.SetUser(claim.Value, name, context);
+    }
+    return next();
+});
+app.UseZenFirewall();
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
