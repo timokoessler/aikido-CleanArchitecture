@@ -1,4 +1,5 @@
 using System;
+using Aikido.Zen.DotNetCore;
 using CleanArchitecture.Api.BackgroundServices;
 using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Application.Extensions;
@@ -24,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.AddZenFirewall();
 builder.Services.AddControllers();
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
@@ -165,6 +167,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseZenFirewall();
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
