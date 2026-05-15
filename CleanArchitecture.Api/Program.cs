@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using Aikido.Zen.DotNetCore;
 using CleanArchitecture.Api.BackgroundServices;
 using CleanArchitecture.Api.Extensions;
@@ -174,6 +176,15 @@ app.UseAuthorization();
 
 if (builder.Environment.IsProduction())
 {
+    app.Use((context, next) =>
+    {
+        var id = context.User?.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        var name = context.User?.Identity?.Name;
+        if (!string.IsNullOrEmpty(id))
+            Zen.SetUser(id, name, context);
+        return next();
+    });
     app.UseZenFirewall();
 }
 

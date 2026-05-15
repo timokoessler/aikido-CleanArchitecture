@@ -41,6 +41,11 @@ spec:
           - containerPort: 8080
             protocol: TCP
         env:
+          - name: AIKIDO_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: clean-architecture-secrets
+                key: AIKIDO_TOKEN
           - name: ASPNETCORE_HTTP_PORTS
             value: "80"
           - name: Kestrel__Endpoints__Http__Url
