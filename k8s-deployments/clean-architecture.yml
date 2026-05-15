@@ -49,5 +49,10 @@ spec:
             value: http://+:8080
           - name: Kestrel__Endpoints__Grpc__Protocols
             value: Http2
+          - name: AIKIDO_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: aikido-secret
+                key: AIKIDO_TOKEN
           - name: ConnectionStrings__DefaultConnection
             value: Server=sql-server;Database=clean-architecture;Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=True;User Id=SA;Password=Password123!#
