@@ -1,4 +1,6 @@
 using System;
+using System.Security.Claims;
+using Aikido.Zen.DotNetCore;
 using CleanArchitecture.Api.BackgroundServices;
 using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Application.Extensions;
@@ -23,6 +25,8 @@ using RabbitMQ.Client;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Services.AddZenFirewall();
 
 builder.Services.AddControllers();
 builder.Services.AddGrpc();
@@ -165,6 +169,20 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use((context, next) =>
+{
+    var id = context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var name = context.User?.Identity?.Name;
+    if (!string.IsNullOrEmpty(id))
+    {
+        Zen.SetUser(id, name, context);
+    }
+
+    return next();
+});
+
+app.UseZenFirewall();
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
